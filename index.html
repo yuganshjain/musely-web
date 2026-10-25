@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Musely — Your iPhone is the remote</title>
+  <style>
+    :root {
+      --orange: #FF7A2F;
+      --bg: #0A0B0D;
+      --card: #14161A;
+      --pad: #111317;
+      --border: #1E2127;
+      --text: #F4F4F5;
+      --muted: #9EA3AB;
+      --faint: #6B7079;
+      --green: #3DDC97;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,122,47,0.14), transparent);
+    }
+    .app-icon {
+      width: 96px; height: 96px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 20px 60px rgba(255,122,47,0.15);
+      position: relative;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 9vw, 64px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .hero .tagline {
+      font-size: clamp(17px, 3vw, 21px);
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 36px;
+      position: relative;
+    }
+    .platforms {
+      display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+      position: relative;
+    }
+    .platform-pill {
+      background: var(--pad);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Features */
+    .section { padding: 72px 24px; max-width: 1000px; margin: 0 auto; }
+    .section h2 { font-size: clamp(26px, 5vw, 38px); font-weight: 800; color: #fff; text-align: center; margin-bottom: 44px; letter-spacing: -0.5px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+    .card {
+      background: var(--pad);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+    }
+    .card .icon {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--card);
+      border-radius: 10px;
+      margin-bottom: 14px;
+      font-size: 17px;
+    }
+    .card h3 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+    .card p { font-size: 13px; color: var(--muted); }
+
+    /* Pricing */
+    .pricing { background: var(--card); padding: 72px 24px; }
+    .pricing-inner { max-width: 760px; margin: 0 auto; }
+    .pricing h2 { font-size: clamp(26px, 5vw, 38px); font-weight: 800; color: #fff; text-align: center; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .pricing .sub { color: var(--muted); text-align: center; margin-bottom: 40px; font-size: 15px; }
+    .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+    .plan {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px 20px;
+    }
+    .plan.featured { border-color: rgba(255,122,47,0.4); background: rgba(255,122,47,0.06); }
+    .plan .badge { background: rgba(255,122,47,0.15); color: var(--orange); font-size: 10px; font-weight: 700; letter-spacing: 0.5px; padding: 3px 10px; border-radius: 20px; margin-bottom: 14px; display: inline-block; text-transform: uppercase; }
+    .plan .price { font-size: 30px; font-weight: 800; color: #fff; }
+    .plan .price span { font-size: 14px; font-weight: 400; color: var(--muted); }
+    .plan .label { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    /* Support */
+    .faq { display: flex; flex-direction: column; gap: 10px; max-width: 700px; margin: 0 auto; }
+    .faq-item {
+      background: var(--pad);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 22px;
+    }
+    .faq-item h3 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+    .faq-item p { font-size: 14px; color: var(--muted); }
+    .contact-card {
+      max-width: 700px; margin: 28px auto 0;
+      background: var(--pad);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    .contact-card p { font-size: 14px; color: var(--muted); margin-bottom: 4px; }
+    .contact-card a { color: var(--orange); text-decoration: none; font-weight: 600; }
+    .contact-card a:hover { text-decoration: underline; }
+
+    /* Footer */
+    footer {
+      padding: 32px 24px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--faint);
+      font-size: 13px;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--orange); }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="app-icon">
+    <svg width="48" height="48" viewBox="0 0 691 632" xmlns="http://www.w3.org/2000/svg">
+      <path d="M61,570 L61,61 L246,334 L431,61 L431,570" fill="none" stroke="#F4F4F5" stroke-width="122" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="581" cy="316" r="76" fill="#FF7A2F"/>
+    </svg>
+  </div>
+  <h1>Musely</h1>
+  <p class="tagline">Your iPhone is the remote. Trackpad, keyboard and slide clicker for any computer — nothing to install.</p>
+  <div class="platforms">
+    <span class="platform-pill">macOS</span>
+    <span class="platform-pill">Windows</span>
+    <span class="platform-pill">Linux</span>
+  </div>
+</div>
+
+<!-- Features -->
+<div class="section">
+  <h2>Everything a clicker can't do</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="icon">🖱️</div>
+      <h3>Real trackpad</h3>
+      <p>Tap to click, two-finger scroll, drag — the whole pad is the button, no separate keys.</p>
+    </div>
+    <div class="card">
+      <div class="icon">⌨️</div>
+      <h3>Full keyboard</h3>
+      <p>Type text, send shortcuts, control media and volume, all from your phone.</p>
+    </div>
+    <div class="card">
+      <div class="icon">👉</div>
+      <h3>Slide clicker</h3>
+      <p>Next, previous, blank screen and a talk timer, built for presenting.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📡</div>
+      <h3>No install needed</h3>
+      <p>Pairs as a standard Bluetooth mouse and keyboard — works the moment you connect.</p>
+    </div>
+    <div class="card">
+      <div class="icon">💻</div>
+      <h3>Any computer</h3>
+      <p>Mac, Windows or Linux. Remember up to 5 computers and reconnect instantly.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎓</div>
+      <h3>Learn it fast</h3>
+      <p>A built-in gesture guide teaches every move in under a minute.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing -->
+<div class="pricing">
+  <div class="pricing-inner">
+    <h2>Simple pricing</h2>
+    <p class="sub">The core remote is free forever. Pro adds presenter extras as they ship.</p>
+    <div class="plans">
+      <div class="plan">
+        <div class="price">Free</div>
+        <div class="label">Trackpad, keyboard, slide clicker</div>
+      </div>
+      <div class="plan featured">
+        <div class="badge">Founding price</div>
+        <div class="price">$9.99<span> once</span></div>
+        <div class="label">Musely Pro — laser pointer, Lock Screen controls, Musely Desktop</div>
+      </div>
+      <div class="plan">
+        <div class="price">$34.99</div>
+        <div class="label">Musely Key — USB hardware, sold separately</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Support -->
+<div class="section">
+  <h2>Support</h2>
+  <div class="faq">
+    <div class="faq-item">
+      <h3>My computer doesn't show Musely in its Bluetooth list</h3>
+      <p>Make sure Bluetooth is on and the computer isn't still bonded to a previous pairing. In the app, go to Settings → Pairing problems, which walks you through forgetting the old pairing on both sides and reconnecting.</p>
+    </div>
+    <div class="faq-item">
+      <h3>The computer pairs but nothing moves</h3>
+      <p>Some Bluetooth adapters accept the connection but delay the first input report. Open Settings → Pairing problems → Restart advertising, then try again. If it keeps happening on the same computer, it's usually a driver issue on that machine, not your phone.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Wrong characters appear when I type</h3>
+      <p>Musely sends raw key presses, so the keyboard layout set in the app (Settings → Keyboard layout) must match what the computer expects. Switch it to match and reconnect.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is Musely free?</h3>
+      <p>Yes — the trackpad, keyboard and slide clicker are free forever. Musely Pro is an optional one-time unlock for presenter extras as they ship. See Pricing above.</p>
+    </div>
+  </div>
+  <div class="contact-card">
+    <p style="font-weight:600; color:#fff; margin-bottom:8px; font-size:15px;">Still stuck, or found a bug?</p>
+    <p>Email <a href="mailto:yuganshjain11@gmail.com">yuganshjain11@gmail.com</a> and we'll get back to you.</p>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>© 2026 Musely &nbsp;·&nbsp; <a href="privacy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="mailto:yuganshjain11@gmail.com">Contact</a></p>
+</footer>
+
+</body>
+</html>
